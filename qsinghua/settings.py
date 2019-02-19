@@ -67,7 +67,8 @@ SPIDER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'qsinghua.pipelines.QsinghuaPipeline': 300,
+   # 'qsinghua.pipelines.QsinghuaPipeline': 300,
+   'qsinghua.pipelines.ElasticsearchPipline':310
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

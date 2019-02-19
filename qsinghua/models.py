@@ -13,6 +13,13 @@ import mongoengine
 from mongoengine import *
 from mongoengine.context_managers import switch_db
 import datetime
+from datetime import datetime
+
+from elasticsearch_dsl import DocType, Date, Nested, Boolean,analyzer, InnerDoc, Completion, Keyword, Text, Integer
+
+from elasticsearch_dsl.connections import connections
+
+connections.create_connection(hosts=["localhost"])
 
 DATA_TYPE = (0, 1, 2, 3, 4, 5, 6)
 IS_RUN = (0, 1)
@@ -83,50 +90,50 @@ class User(Document):
             ]
     }
 
-class Sen_message(Document):
-    _id = ObjectIdField(primary_key=True)
-    url = StringField(required=True, max_length=512, unique_with='user_id_list')
-    site_id = IntField(required=True)
-    site_name = StringField(max_length=64)
-    # topic_id = IntField(required=False, default=0)
-    topic_id = ListField(IntField(), default=list)
-    board = StringField(max_length=200)
-    data_type = IntField(required=True)
-    title = StringField(max_length=500)
-    content = StringField(max_length=2048)
-    # topic_name = StringField(max_length=512)
-    topic_name = ListField(StringField(), default=list)
-    html = FileField()
-    pt_time = DateTimeField(required=True)
-    st_time = DateTimeField(default=datetime.datetime.now)
-    add_time = DateTimeField(default=datetime.datetime.now)
-    read_num = IntField(default=0)
-    comm_num = IntField(default=0)
-    img_url = StringField(max_length=512)
-    repost_num = IntField(default=0)
-    lan_type = IntField(default=0)
-    repost_pt_id = StringField(required=False)
-    text_type = IntField(required=False)
-    poster = EmbeddedDocumentField(Poster)
-    is_report = IntField(default=0)  # 未上报0 已上报1 已处理2 
-    phone_num = StringField(max_length=20)
-    qq_num = StringField(max_length = 20)
-    ip_addr = StringField(max_length=20)
-    sen_words = ListField(StringField(), default=list)
-    reporter_id = IntField(default=0)
-    reporter_account = StringField(max_length=64)
-    reporter_group_id = IntField(default=1)
-    user_id_list = ListField(IntField(), default=list)
-    geography = StringField(max_length=64)
-    meta = {
-        'ordering': ['-pt_time'],
-        'collection': 'sen_message',
-        'indexes':[
-            'topic_id',
-            'pt_time',
-            ('data_type', 'site_id'),  # 复合index
-        ]
-    }
+# class Sen_message(Document):
+#     _id = ObjectIdField(primary_key=True)
+#     url = StringField(required=True, max_length=512, unique_with='user_id_list')
+#     site_id = IntField(required=True)
+#     site_name = StringField(max_length=64)
+#     # topic_id = IntField(required=False, default=0)
+#     topic_id = ListField(IntField(), default=list)
+#     board = StringField(max_length=200)
+#     data_type = IntField(required=True)
+#     title = StringField(max_length=500)
+#     content = StringField(max_length=2048)
+#     # topic_name = StringField(max_length=512)
+#     topic_name = ListField(StringField(), default=list)
+#     html = FileField()
+#     pt_time = DateTimeField(required=True)
+#     st_time = DateTimeField(default=datetime.datetime.now)
+#     add_time = DateTimeField(default=datetime.datetime.now)
+#     read_num = IntField(default=0)
+#     comm_num = IntField(default=0)
+#     img_url = StringField(max_length=512)
+#     repost_num = IntField(default=0)
+#     lan_type = IntField(default=0)
+#     repost_pt_id = StringField(required=False)
+#     text_type = IntField(required=False)
+#     poster = EmbeddedDocumentField(Poster)
+#     is_report = IntField(default=0)  # 未上报0 已上报1 已处理2 
+#     phone_num = StringField(max_length=20)
+#     qq_num = StringField(max_length = 20)
+#     ip_addr = StringField(max_length=20)
+#     sen_words = ListField(StringField(), default=list)
+#     reporter_id = IntField(default=0)
+#     reporter_account = StringField(max_length=64)
+#     reporter_group_id = IntField(default=1)
+#     user_id_list = ListField(IntField(), default=list)
+#     geography = StringField(max_length=64)
+#     meta = {
+#         'ordering': ['-pt_time'],
+#         'collection': 'sen_message',
+#         'indexes':[
+#             'topic_id',
+#             'pt_time',
+#             ('data_type', 'site_id'),  # 复合index
+#         ]
+#     }
 
 class Post(Document):
     _id = ObjectIdField(primary_key=True)
@@ -142,7 +149,7 @@ class Post(Document):
     content = StringField(max_length=2048)
     html = FileField()
     pt_time = DateTimeField(required=True)
-    st_time = DateTimeField(default=datetime.datetime.now)
+    # st_time = DateTimeField(default=datetime.datetime.now)
     read_num = IntField(default=0)
     comm_num = IntField(default=0)
     img_url = StringField(max_length=512)
@@ -257,7 +264,7 @@ class Post_News(Document):
     content = StringField(max_length=2048)
     html = FileField()
     pt_time = DateTimeField(required=True)
-    st_time = DateTimeField(default=datetime.datetime.now)
+    # st_time = DateTimeField(default=datetime.datetime.now)
     read_num = IntField(default=0)
     comm_num = IntField(default=0)
     img_url = StringField(max_length=512)
@@ -320,7 +327,7 @@ class Wall_Post(Document):
     content = StringField(max_length=2048)
     html = FileField()
     pt_time = DateTimeField(required=True)
-    st_time = DateTimeField(default=datetime.datetime.now)
+    # st_time = DateTimeField(default=datetime.datetime.now)
     read_num = IntField(default=0)
     comm_num = IntField(default=0)
     img_url = StringField(max_length=512)
@@ -361,7 +368,7 @@ class Tran_Wall_Post(Document):
     content = StringField(max_length=2048)
     html = FileField()
     pt_time = DateTimeField(required=True)
-    st_time = DateTimeField(default=datetime.datetime.now)
+    # st_time = DateTimeField(default=datetime.datetime.now)
     read_num = IntField(default=0)
     comm_num = IntField(default=0)
     img_url = StringField(max_length=512)
@@ -502,7 +509,7 @@ class TiebaPost(Document):
     floor_num = IntField(default=0)
     comm_num = IntField(default=0)
     pt_time = DateTimeField(required=True)                                   # create datetime
-    st_time = DateTimeField(default=datetime.datetime.now)                   # crawl datetime
+    # st_time = DateTimeField(default=datetime.datetime.now)                   # crawl datetime
     # post detail info
     html = FileField()
     title = StringField(max_length=512)
@@ -560,7 +567,7 @@ class Course_Post(Document):
     title = StringField(max_length=500)
     content = StringField(max_length=2048)
     pt_time = DateTimeField(required=True)
-    st_time = DateTimeField(default=datetime.datetime.now)
+    # st_time = DateTimeField(default=datetime.datetime.now)
     img_url = StringField(max_length=512)
     lan_type = IntField(default=0)
     text_type = IntField(required=False)
@@ -626,12 +633,62 @@ class Province_list(Document):
         'collection': 'province_list'
     }
 
+class ShuiMuType(DocType):
+
+    # url_object_id = Keyword()
+
+    url = Keyword()
+
+    title = Text(analyzer="ik_max_word")
+
+    salary = Keyword()
+
+    job_city = Keyword()
+
+    work_years = Text(analyzer="ik_max_word")
+
+    degree_need = Keyword()
+
+    job_type = Text(analyzer="ik_max_word")
+
+    publish_time = Date()
+
+    tags = Text(analyzer="ik_max_word")
+
+    job_advantage = Text(analyzer="ik_max_word")
+
+    job_desc = Text(analyzer="ik_max_word")
+
+    job_addr = Text(analyzer="ik_max_word")
+
+    company_url = Keyword()
+
+    company_name = Text(analyzer="ik_max_word")
+
+    crawl_time = Date()
+
+    class Meta:
+        index = 'shuimu'
+        doc_type = "post"
+    
+    class Index:
+        index = 'shuimu'
+        doc_type = "post"
+
+   
+
+# min_salary = Integer()
+
+# max_salary = Integer()
+
+   
 
 
 
 
+   
 
+   
 
-
-
-
+if __name__ == "__main__":
+    ShuiMuType.init()

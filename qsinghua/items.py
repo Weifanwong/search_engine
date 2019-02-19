@@ -6,6 +6,11 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+# from qsinghua.models import ShuiMuType
+from qsinghua.es_operation import ShuimuType
+from elasticsearch_dsl.connections import connections
+es = connections.create_connection(hosts=['127.0.0.1'])
+
 
 
 class ShuiMuPostItem(scrapy.Item):
@@ -20,4 +25,12 @@ class ShuiMuPostItem(scrapy.Item):
     poster_num = scrapy.Field()#
     poster_sex = scrapy.Field()
     site_id = scrapy.Field()
-
+    def save_to_es(self):
+        shuimu_type=ShuimuType()
+        shuimu_type.url=self["url"]
+        shuimu_type.title=self["title"]
+        shuimu_type.job_desc=self['content']
+        shuimu_type.crawl_time=self['pt_time']
+        shuimu_type.gender=self['poster_sex']
+        shuimu_type.save()
+        return
