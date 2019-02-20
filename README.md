@@ -25,5 +25,9 @@ python manage.py runserver 8000
 
 3、运行es
 
-
 4、打开search_engine.html，输入查询内容，点击搜索
+
+
+易错点：
+
+1、django本地服务器一定要记得允许跨域访问！
