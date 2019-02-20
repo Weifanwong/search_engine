@@ -21,5 +21,6 @@ import views_template
 
 urlpatterns = [
     url(r'^train_search_get$',views_template.Homework_Get_Show.as_view()),
+    url(r'^train_search_post$',views_template.Homework_Post_Show.as_view()),
     #url(r'^yqdata/train_delete_get$',views_template.Template_Delete_1.as_view()),
 ]

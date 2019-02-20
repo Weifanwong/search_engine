@@ -6,7 +6,7 @@ from mongoengine import *
 import pymongo
 
 
-conn=pymongo.MongoClient('127.0.0.1',27017)
+conn=pymongo.MongoClient('202.117.43.207',27017)
 db = conn.wwf_database02
 myset = db.searchresult
 # sys.setdefaultencoding("utf8")

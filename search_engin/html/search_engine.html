@@ -17,29 +17,36 @@
 <body>
   <input id="input" type="text" name="">
   <button id="button" onclick="search()">搜索</button>
-  <div id="search_result" class="search_result"></div>
+    <h1><a href="http://www.newsmth.net/nForum/article/UESTC/16400">dsa</a>  </h1>
+  <div id="search_result" src="" class="search_result"></div>
+
 
 </body>
 </html>
 <script type="text/javascript" src="../script/jquery.js"></script>
 <script type="text/javascript">
 
-$(document).ready(function(){
-  $("button").click(function(){
-
-  });
-});
 
   function search() {
     content = document.getElementById('input').value;
-    url = "http://127.0.0.1:8000/train_search_get?search="+content,
+    url = "http://127.0.0.1:8000/train_search_get?search="+content
     console.log(url)
         $.ajax({
-          url:url,
           type: 'get',
+          url:url,
           crossDomain: true,
+          // data: content,  
+          dataType: 'json',
           success:function(result){
-            console.log(result);
+            // for (var i = 0 ; i < result.length; i++) {
+            //   Things[i]
+            // }
+            console.log(result)
+            document.getElementById('search_result').innerHTML = result[0]['title']
+            document.getElementById('search_result').setAttribute('href',result[0]['url']) 
+          },
+          error:function(){
+            console.log('!!!');
           }
   });
 

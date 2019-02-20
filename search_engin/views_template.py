@@ -27,6 +27,18 @@ import pymongo
 import sys
 from elasticsearch import Elasticsearch
 
+# from flask import Flask, request
+
+# from flask_json import FlaskJSON, as_json_p
+
+# app = Flask(__name__)
+# json = FlaskJSON(app)
+
+
+
+
+
+
 
 conn=pymongo.MongoClient('127.0.0.1',27017)
 db = conn.wwf_database02
@@ -51,7 +63,19 @@ client = pymongo.MongoClient('127.0.0.1',27017)
 db = client['wwf_database02']
 table = db['searchresult']
 # connect('yuqing', alias='default', host='118.190.133.203', port=27016,username='yuqing',password='yuqing@2017')
-connect('wwf_database01',alias='default',host='127.0.0.1',port=27017)
+connect('wwf_database02',alias='default',host='127.0.0.1',port=27017)
+
+
+
+class MyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(obj, date):
+            return obj.strftime('%Y-%m-%d')
+        else:
+            return json.JSONEncoder.default(self, obj)
+
 
 
 class Homework_Get_Show(APIView):   #利用get查找
@@ -59,6 +83,7 @@ class Homework_Get_Show(APIView):   #利用get查找
 
 
     def get(self, request, format=None):
+        
         search_content=str(request.GET['search'])
         query_json = {
             "match": {
@@ -88,12 +113,30 @@ class Homework_Get_Show(APIView):   #利用get查找
             json_out={"Show":"Success"}
         except:
             json_out={"Show":"no such id"}
-        
+        print(show_table)
+        # print(type(json.loads(json_out,cls=MyEncoder,ensure_ascii=False)))
         #return HttpResponse(tmp[0]['topic_name'])#tmp存放的是多个topic_template组成的数组，而new_obj存放的是topic_template类型
-        return HttpResponse(json.dumps(show_table,ensure_ascii=False))
+        return HttpResponse(json.dumps(show_table, cls=MyEncoder,ensure_ascii=False),content_type="application/json")
         #return HttpResponse(json_out)
         ##question:1、“查”究竟是将数据显示到哪里接收符合条件的数据的时候必须用这种json数据类型来吗？有没有其他办法？
 
+    
+
+class Homework_Post_Show(APIView):    #利用post增加
+    @csrf_exempt #这一行干啥的
+    def post(self,request,format=None):
+        json_out = {}
+
+        try:
+            json_data = request.data
+            json_out={"Show":"Success"}
+        except:
+            json_out={"Show":"no such id"}
+
+        #json_out={}
+        json_data = request.data
+        
+        return HttpResponse(json.dumps(json_data, cls=MyEncoder),content_type="application/json")
 
 
 

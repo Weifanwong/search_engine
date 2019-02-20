@@ -10,8 +10,9 @@ import sys
 import importlib
 # from PIL import Image
 # importlib.reload(sys)
-reload(sys)
-sys.setdefaultencoding("utf-8")
+import importlib,sys 
+# importlib.reload(sys)
+# sys.setdefaultencoding("utf-8")
 
 
 conn = connect('wwf_database02', alias='default', host='127.0.0.1', port=27017, username='', password='')
