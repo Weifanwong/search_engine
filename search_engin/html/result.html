@@ -1,0 +1,157 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>python-search搜索引擎</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <style>
+    body {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    .top-title {
+        border-bottom:1px solid #bfbfbf;
+        position: relative;
+        width: 100%;
+        height: 8%;
+    }
+    .inputArea {
+        position:relative;
+        width: 50%;
+        height: 80%;
+        left: 5%;
+        top: 10%;
+        }
+    .logo {
+        position: relative;
+        width: 4.5%;
+        height: 80%;
+        top: 10%;
+        left: 0%;
+        float: left;
+        background-image: url(../static/img/logo.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    } 
+    .inputArea .searchInput {
+        position: absolute;
+        height: 80%;
+        width: 75%;
+        top: 10%;
+        left: 0;
+        border:1px solid #bfbfbf;padding:15px 15px;
+        background: url(../static/img/inputbg.png);
+        font-size:16px;
+    }
+    .inputArea .searchButton {
+        position:absolute;
+        height: 80%;
+        top: 10%;
+        width:15%;
+        right: 7%;
+        background-color: #317ef3;
+        font-size:16px; color: #fff; text-align: center center;
+    }
+    .foot {
+        position:relative;
+        bottom:0px;
+        width:100%;
+    }
+    .foot .wrap { 
+        margin:0 auto;
+    }
+    .foot .copyright{
+        position:relative;
+        top:35px;
+        color:#ababab;
+        text-align:center;
+    }
+    .content {
+        width: 42.5%;
+        min-height: 10%;
+        height: auto;
+    }
+    .search_num {
+        width: 100%;
+        height: 40px;
+        padding-left: 8.4%;
+        font-size: 14px; color: #999999; text-align: left;
+    }
+    .tip {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding-left: 8.4%;
+        margin-top: 10px;
+    }
+    .tip .title {
+        width: 90%;
+        height: auto;
+        font-size: 18px; color: #0000cc; text-align: left;
+    }
+    .tip .content {
+        width: 100%;
+        height: auto;
+        font-size: 16px; color: #000; text-align: left;
+    }
+    .tip .url {
+        width: 60%;
+        height: auto;
+        font-size: 14px; color: #008000; text-align: left;
+    }
+    </style>
+</head>
+<body>
+    <div class="top-title">
+        <div class="logo"></div>
+        <div class="inputArea">
+            <input id="input" type="text" class="searchInput"/>
+                <button class="searchButton">
+                    搜索一下
+                </button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="search_num">为您找到相关结果约767,000个</div>
+
+        <div class="tip">
+            <div class="title">这是第一条结果</div>
+            <div class="content">这是摘要内容这是摘要内容这是摘要内容这是摘要内容</div>
+            <div class="url">file:///G:/spider_study/qsinghua/search_e</div>
+        </div>
+        <div class="tip">
+            <div class="title">这是第一条结果</div>
+            <div class="content">这是摘要内容这是摘要内容这是摘要内容这是摘要内容</div>
+            <div class="url">file:///G:/spider_study/qsinghua/search_e</div>
+        </div>
+        <div class="tip">
+            <div class="title">这是第一条结果</div>
+            <div class="content">这是摘要内容这是摘要内容这是摘要内容这是摘要内容</div>
+            <div class="url">file:///G:/spider_study/qsinghua/search_e</div>            
+        </div>        
+        <div class="tip"></div>
+        <div class="tip"></div>
+    </div>
+    
+
+    <!-- <div class="foot">
+          <div class="wrap">
+                <div class="copyright">Copyright &copy;王伟帆 版权所有  E-mail:weifanw_stu@stu.xjtu.edu.cn</div>
+            </div>
+    </div> -->
+</body>
+<script type="text/javascript" src="../static/js/jquery.js"></script>
+<script type="text/javascript" src="../static/js/global.js"></script>
+<script type="text/javascript">
+    var searchUrl = window.location.href;
+    var searchData = searchUrl.split("=");
+    var searchText = decodeURI(searchData[1]);
+    $('#searchContent').text(searchText)
+    $('#input').val(searchText);
+
+</script>
+</html>

@@ -1,33 +1,148 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <style>
-    .search_result {
-      position: relative;
-      width: 100%;
-      height: 30%;
-    }
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
 
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>小型搜索引擎</title>
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <style>
+    body {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    } 
+    .title {
+      position: relative;
+      width: 30%;
+      height: 17%;
+      left: 35%;
+      top: 10%;
+      background-image: url(../static/img/logo2.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    .searchbar {
+        position: relative;
+        width: 100%;
+        height: 8%;
+        top: 15%;
+    }
+    .inputArea {
+        position:relative;
+        width: 50%;
+        height: 80%;
+        left: 30%;
+        top: 10%;
+    }
+    .inputArea .searchInput {
+        position: absolute;
+        height: 80%;
+        width: 75%;
+        top: 10%;
+        left: 0;
+        border:1px solid #bfbfbf;
+        padding:15px 15px;
+        background:url(../static/img/inputbg.png);
+        font-size:16px;
+      }
+    .inputArea .searchButton {
+        position:absolute;
+        height: 80%;
+        top: 10%;
+        width:15%;
+        right: 7%;
+      /*background:url(../static/img/seachbtn.png) no-repeat;border:none;cursor:pointer;*/
+        background-color: #317ef3;
+        font-size:16px; color: #fff; text-align: center center;
+    }
     </style>
 </head>
 <body>
-  <input id="input" type="text" name="">
-  <button id="button" onclick="search()">搜索</button>
-    <h1><a href="http://www.newsmth.net/nForum/article/UESTC/16400">dsa</a>  </h1>
-  <div id="search_result" src="" class="search_result"></div>
+  <div class="title">
+  </div>
+    <div class="searchbar">
+        <div class="inputArea">
+            <input id="input" type="text" class="searchInput"/>
+                <button class="searchButton">
+                    搜索一下
+                </button>
+        </div>
+    </div>
 
-
+    <div class="foot">
+      <div class="wrap">
+            <div class="copyright">Copyright &copy;王伟帆 版权所有  E-mail:weifanw_stu@stu.xjtu.edu.cn</div>
+        </div>
+    </div>
 </body>
-</html>
-<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../static/js/jquery.js"></script>
+<script type="text/javascript" src="../static/js/global.js"></script>
 <script type="text/javascript">
+  $('body').ready(function(){
+    $('button').click(function(){
+      value = $('#input').val();
+      var seachUrl = encodeURI("./result.html?searchText=" + value)
+      window.location.href = seachUrl;
+    })
 
 
-  function search() {
+  })
+    // $('body').ready(function(){
+    //     $('.searchItem')[0].click()
+    // })
+
+    // //选中样式效果
+    // $('.searchItem').click(function () {
+    //     //取出未选中标签样式
+    //     $('.searchItem').removeClass('current')
+    //     // 当前点击的标签添加样式
+    //     $(this).addClass('current')
+    // })
+
+    // $(function () {
+    //     // 绑定输入框输入数据发生改变，不失去焦点就能触发的事件
+    //     $('.searchInput').bind("input propertychange", function () {
+    //         // 1.获取输入框的内容
+    //         var searchText = $(this).val()
+    //         // 拼接搜索建议参数 s 搜索内容参数 s_type 搜索类型
+    //         var url = '/suggest/?s=' + searchText + '&s_type=' + $('.searchItem.current').attr('data-type')
+    //         // 发送请求
+    //         $.ajax({
+    //             url: url,
+    //             type: 'get',
+    //             async: true,
+    //             success: function (data) {
+    //                 if(data.status==1){
+    //                     // 清空当前搜索建议内容
+    //                     $('.dataList').html('')
+    //                     for (var idx in data.suggests){
+    //                         var s_url = '/result/?kw=' + data.suggests[idx] + '&s_type=' + data.s_type
+    //                         var li_html = '<li><a href="'+ s_url +'">'+ data.suggests[idx] +'</a></li>'
+    //                         $('.dataList').append(li_html)
+    //                         $('.dataList').show()
+    //                     }
+    //                 }else{
+    //                     $('.dataList').hide()
+    //                 }
+    //             }
+    //         })
+    //     })
+
+    //     $('.searchButton').click(function () {
+    //         add_search()
+    //     })
+    //     function add_search() {
+    //         var keyword = $('.searchInput').val()
+    //         var s_type = $('.searchItem.current').attr('data-type')
+    //         window.location.href = '/result/' + '?kw=' + keyword + '&s_type=' + s_type
+    //     }
+
+    // })
+
+    function search() {
     content = document.getElementById('input').value;
     url = "http://127.0.0.1:8000/train_search_get?search="+content
     console.log(url)
@@ -35,31 +150,17 @@
           type: 'get',
           url:url,
           crossDomain: true,
-          // data: content,  
           dataType: 'json',
           success:function(result){
-            // for (var i = 0 ; i < result.length; i++) {
-            //   Things[i]
-            // }
             console.log(result)
-            document.getElementById('search_result').innerHTML = result[0]['title']
-            document.getElementById('search_result').setAttribute('href',result[0]['url']) 
+            // document.getElementById('search_result').innerHTML = result[0]['title']
+            // document.getElementById('search_result').setAttribute('href',result[0]['url']) 
           },
           error:function(){
             console.log('!!!');
           }
   });
-
-
-
-    // $.ajax({
-    //     type: "get",
-    //     dataType : "json",
-    //     data: JSON.stringify(json),
-    //     success: function (d) {
-    //     json_data = d; //是否需要将json转化为{}才能赋给json_data?
-    //     }
-    //   });
-
   }
 </script>
+
+</html>
