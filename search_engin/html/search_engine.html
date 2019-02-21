@@ -87,8 +87,6 @@
       var seachUrl = encodeURI("./result.html?searchText=" + value)
       window.location.href = seachUrl;
     })
-
-
   })
     // $('body').ready(function(){
     //     $('.searchItem')[0].click()
@@ -142,25 +140,23 @@
 
     // })
 
-    function search() {
-    content = document.getElementById('input').value;
-    url = "http://127.0.0.1:8000/train_search_get?search="+content
-    console.log(url)
-        $.ajax({
-          type: 'get',
-          url:url,
-          crossDomain: true,
-          dataType: 'json',
-          success:function(result){
-            console.log(result)
-            // document.getElementById('search_result').innerHTML = result[0]['title']
-            // document.getElementById('search_result').setAttribute('href',result[0]['url']) 
-          },
-          error:function(){
-            console.log('!!!');
-          }
-  });
-  }
+  //   function search() {
+  //   content = document.getElementById('input').value;
+  //   url = "http://127.0.0.1:8000/train_search_get?search="+content
+  //   console.log(url)
+  //       $.ajax({
+  //         type: 'get',
+  //         url:url,
+  //         crossDomain: true,
+  //         dataType: 'json',
+  //         success:function(result){
+  //           console.log(result)
+  //         },
+  //         error:function(){
+  //           console.log('!!!');
+  //         }
+  // });
+  // }
 </script>
 
 </html>

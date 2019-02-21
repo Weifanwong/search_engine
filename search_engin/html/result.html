@@ -115,10 +115,10 @@
         </div>
     </div>
 
-    <div class="content">
-        <div class="search_num">为您找到相关结果约767,000个</div>
+    <div id="content" class="content">
+        <div id="content_top" class="search_num">为您找到相关结果约767,000个</div>
 
-        <div class="tip">
+       <!--  <div class="tip">
             <div class="title">这是第一条结果</div>
             <div class="content">这是摘要内容这是摘要内容这是摘要内容这是摘要内容</div>
             <div class="url">file:///G:/spider_study/qsinghua/search_e</div>
@@ -134,7 +134,7 @@
             <div class="url">file:///G:/spider_study/qsinghua/search_e</div>            
         </div>        
         <div class="tip"></div>
-        <div class="tip"></div>
+        <div class="tip"></div> -->
     </div>
     
 
@@ -147,11 +147,41 @@
 <script type="text/javascript" src="../static/js/jquery.js"></script>
 <script type="text/javascript" src="../static/js/global.js"></script>
 <script type="text/javascript">
-    var searchUrl = window.location.href;
-    var searchData = searchUrl.split("=");
-    var searchText = decodeURI(searchData[1]);
-    $('#searchContent').text(searchText)
-    $('#input').val(searchText);
+    $('body').ready(function(){
+        var searchUrl = window.location.href;
+        var searchData = searchUrl.split("=");
+        var searchText = decodeURI(searchData[1]);
+        $('#input').val(searchText);
+        url = "http://127.0.0.1:8000/train_search_get?search="+ searchText;
+          $.ajax({
+              type: 'get',
+              url:url,
+              crossDomain: true,
+              dataType: 'json',
+              success:function(result){
+                console.log(result)
+                view_tips(result)
+              },
+              error:function(){
+                console.log('!!!');
+              }
+          });
+        })
+
+
+
+    function view_tips(json_dict) {
+        for (var i = 0; i < json_dict.length; i++) {
+            add_node = $("<div class='tip'><div class='title'></div><div class='content'></div><div class='url'>file:///G:/spider_study/qsinghua/search_e</div></div>");
+            add_node.children(".title").text($.trim(json_dict[i]['title']));
+            add_node.children(".content").text(json_dict[i]['content']);
+            add_node.children(".url").text(json_dict[i]["url"]);
+            $('#content_top').after(add_node);
+        }
+
+
+    } 
+    
 
 </script>
 </html>

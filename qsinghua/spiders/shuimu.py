@@ -11,8 +11,8 @@ import importlib
 # from PIL import Image
 # importlib.reload(sys)
 import importlib,sys 
-# importlib.reload(sys)
-# sys.setdefaultencoding("utf-8")
+#importlib.reload(sys)
+#sys.setdefaultencoding("utf-8")
 
 
 conn = connect('wwf_database02', alias='default', host='127.0.0.1', port=27017, username='', password='')
@@ -110,7 +110,7 @@ class ShuimuSpider(scrapy.Spider):
 		item = response.meta['item']
 		poster = response.xpath('//span[@class="a-u-name"]/a/text()').extract()[0]  #提取发帖人名称
 		title = response.xpath('//body//span[@class="n-left"]/text()').extract()[0]
-		title = title.replace('文章主题:','') #帖子名称
+		#title = title.replace('文章主题:','') #帖子名称
 		comm_num = response.xpath('//body//li[@class="page-pre"]/i/text()').extract()[0]
 		content = response.xpath('//body//td[@class="a-content"]/p').extract()[0]
 		# content = content.replace('\xa0','')
@@ -122,7 +122,7 @@ class ShuimuSpider(scrapy.Spider):
 		item['comm_num'] = int(comm_num)
 		item['content'] = content
 		item['url'] = response.url
-		item['site_name'] = '水木论坛'
+		#item['site_name'] = '水木论坛'
 		item['poster_num'] = int(poster_num)
 		item["site_id"] = 1
 
@@ -141,9 +141,9 @@ class ShuimuSpider(scrapy.Spider):
 		poster_info = poster_info.replace('true','1')
 		poster_info = eval(poster_info)
 		if poster_info['gender'] == 'm':
-			item['poster_sex'] = '男'
+			item['poster_sex'] = 1
 		elif poster_info['gender'] == 'f':
-			item['poster_sex'] = '女'
+			item['poster_sex'] = 0
 		else:
 			item['poster_sex'] = ''
 		# print(item)
