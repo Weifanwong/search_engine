@@ -99,6 +99,10 @@ class Homework_Get_Show(APIView):   #利用get查找
         }
         }
 
+        collapse = {
+        "field": "title.keyword"
+            }      
+
         source_arr = ["url",
                       "title",
                       "crawl_time",
@@ -107,7 +111,7 @@ class Homework_Get_Show(APIView):   #利用get查找
                       ]
  
         # res = s.query("match",title=search_content).execute()
-        res = es.search(index="my-index",doc_type="doc",body={"query": query_json, "_source": source_arr,"highlight":highlight},size=100)  # 获取所有数据
+        res = es.search(index="my-index",doc_type="doc",body={"query": query_json, "_source": source_arr,"collapse":collapse,"size":100,})  # 获取所有数据
 
      
  
