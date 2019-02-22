@@ -114,14 +114,14 @@
         <div class="logo"></div>
         <div class="inputArea">
             <input id="input" type="text" class="searchInput"/>
-                <button class="searchButton">
+                <button id="button" class="searchButton">
                     搜索一下
                 </button>
         </div>
     </div>
 
     <div id="content" class="content">
-        <div id="content_top" class="search_num">为您找到相关结果约767,000个</div>
+        <div id="content_top" class="search_num"></div>
     </div>
     
 
@@ -150,20 +150,27 @@
                 view_tips(result)
               },
               error:function(){
-                console.log('!!!');
+                console.log('搜索失败');
               }
           });
         })
+
+    $('#button').click(function(){
+        value = $('#input').val();
+        var seachUrl = encodeURI("./result.html?searchText=" + value)
+        window.location.href = seachUrl;
+    })
 
 
 
     function view_tips(json_dict) {
         $('#content_top').text('为您找到相关结果约'+json_dict.length+'个')
         for (var i = 0; i < json_dict.length; i++) {
-                add_node = $("<div class='tip'><div class='title'></div><div class='content'></div><div class='url'>file:///G:/spider_study/qsinghua/search_e</div></div>");
-                add_node.children(".title").text($.trim(json_dict[i]['title']));
+                add_node = $("<div class='tip'><div class='title'><a class='title1'></a></div><div class='content'></div><div class='url'>file:///G:/spider_study/qsinghua/search_e</div></div>");
+                add_node.children(".title").children('.title1').text($.trim(json_dict[i]['title']));
                 add_node.children(".content").text(json_dict[i]['content']);
                 add_node.children(".url").text(json_dict[i]["url"]);
+                add_node.children(".title").children('.title1').attr('href',json_dict[i]["url"])
                 $('#content_top').after(add_node);       
                 tmp = json_dict[i]['title']; 
         }
