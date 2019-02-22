@@ -26,6 +26,7 @@ import pymongo
 
 import sys
 from elasticsearch import Elasticsearch
+from elasticsearch_dsl import Search, Q
 
 # from flask import Flask, request
 
@@ -51,12 +52,14 @@ myset = db.searchresult
 # es_search(city,name):es_search(深圳,登科花园)
 ######################################################
  
- 
+
 es = Elasticsearch(
         ['127.0.0.1'],
         # http_auth=('elastic', 'passwd'),
         port=9200
 )
+s = Search(using=es, index="my-index")
+
 
 logger = logging.getLogger('django')
 client = pymongo.MongoClient('127.0.0.1',27017)
@@ -81,16 +84,21 @@ class MyEncoder(json.JSONEncoder):
 class Homework_Get_Show(APIView):   #利用get查找
     @csrf_exempt
 
-
     def get(self, request, format=None):
         
         search_content=str(request.GET['search'])
         query_json = {
-            "match": {
+            "match_phrase": {
               "title": search_content
             }
         }
- 
+
+        highlight = {
+            "fields" : {
+            "title" : {}
+        }
+        }
+
         source_arr = ["url",
                       "title",
                       "crawl_time",
@@ -98,24 +106,28 @@ class Homework_Get_Show(APIView):   #利用get查找
                       "gender",
                       ]
  
- 
- 
-        res = es.search(index="my-index", body={"query": query_json, "_source": source_arr})  # 获取所有数据
+        # res = s.query("match",title=search_content).execute()
+        res = es.search(index="my-index",doc_type="doc",body={"query": query_json, "_source": source_arr,"highlight":highlight},size=100)  # 获取所有数据
+
+     
  
     # 获取第一条数据，得分最高。
         result_list = res['hits']['hits']
+        # print(result_list)
         show_table=[]
         json_out={}
         try:
             for item in result_list:
-                show_table.append({'url':item['_source']['url'],'title':item['_source']['title']})
+                content = item['_source']['job_desc'].strip('<p>').strip('<br>').strip('</font>')
+                show_table.append({'url':item['_source']['url'],'title':item['_source']['title'],'content':content})
                 # ,'content':item['_source']['job_desc'] 
             json_out={"Show":"Success"}
         except:
             json_out={"Show":"no such id"}
-        print(show_table)
+        # print(show_table)
         # print(type(json.loads(json_out,cls=MyEncoder,ensure_ascii=False)))
         #return HttpResponse(tmp[0]['topic_name'])#tmp存放的是多个topic_template组成的数组，而new_obj存放的是topic_template类型
+        print(show_table)
         return HttpResponse(json.dumps(show_table, cls=MyEncoder,ensure_ascii=False),content_type="application/json")
         #return HttpResponse(json_out)
         ##question:1、“查”究竟是将数据显示到哪里接收符合条件的数据的时候必须用这种json数据类型来吗？有没有其他办法？

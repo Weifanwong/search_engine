@@ -96,6 +96,11 @@
         width: 100%;
         height: auto;
         font-size: 16px; color: #000; text-align: left;
+        overflow: hidden; /*自动隐藏文字*/
+        text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+        display:-webkit-box;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:3;
     }
     .tip .url {
         width: 60%;
@@ -117,24 +122,6 @@
 
     <div id="content" class="content">
         <div id="content_top" class="search_num">为您找到相关结果约767,000个</div>
-
-       <!--  <div class="tip">
-            <div class="title">这是第一条结果</div>
-            <div class="content">这是摘要内容这是摘要内容这是摘要内容这是摘要内容</div>
-            <div class="url">file:///G:/spider_study/qsinghua/search_e</div>
-        </div>
-        <div class="tip">
-            <div class="title">这是第一条结果</div>
-            <div class="content">这是摘要内容这是摘要内容这是摘要内容这是摘要内容</div>
-            <div class="url">file:///G:/spider_study/qsinghua/search_e</div>
-        </div>
-        <div class="tip">
-            <div class="title">这是第一条结果</div>
-            <div class="content">这是摘要内容这是摘要内容这是摘要内容这是摘要内容</div>
-            <div class="url">file:///G:/spider_study/qsinghua/search_e</div>            
-        </div>        
-        <div class="tip"></div>
-        <div class="tip"></div> -->
     </div>
     
 
@@ -171,13 +158,18 @@
 
 
     function view_tips(json_dict) {
+        tmp = '';
         for (var i = 0; i < json_dict.length; i++) {
-            add_node = $("<div class='tip'><div class='title'></div><div class='content'></div><div class='url'>file:///G:/spider_study/qsinghua/search_e</div></div>");
-            add_node.children(".title").text($.trim(json_dict[i]['title']));
-            add_node.children(".content").text(json_dict[i]['content']);
-            add_node.children(".url").text(json_dict[i]["url"]);
-            $('#content_top').after(add_node);
+            if (tmp!=json_dict[i]['title']) {
+                add_node = $("<div class='tip'><div class='title'></div><div class='content'></div><div class='url'>file:///G:/spider_study/qsinghua/search_e</div></div>");
+                add_node.children(".title").text($.trim(json_dict[i]['title']));
+                add_node.children(".content").text(json_dict[i]['content']);
+                add_node.children(".url").text(json_dict[i]["url"]);
+                $('#content_top').after(add_node);       
+                tmp = json_dict[i]['title']; 
+            }
         }
+
 
 
     } 

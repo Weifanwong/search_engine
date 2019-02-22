@@ -19,9 +19,8 @@ myset = db.searchresult
  
  
 es = Elasticsearch(
-        ['127.0.0.1'],
-        # http_auth=('elastic', 'passwd'),
-        port=9200
+        # ['127.0.0.1'],
+        # port=9200
 )
  
  
@@ -50,7 +49,7 @@ def es_search(content):
  
  
  
-    res = es.search(index="my-index", body={"query": query_json, "_source": source_arr})  # 获取所有数据
+    res = es.search(index="company",doc_type="d1oc",body={"query": query_json, "_source": source_arr,"size":100},size=100)  # 获取所有数据
  
     # 获取第一条数据，得分最高。
     top_10_recodes = res['hits']['hits']

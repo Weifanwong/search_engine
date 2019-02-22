@@ -18,14 +18,8 @@ class ShuimuType(DocType):  #
     content = Text(analyzer="ik_max_word")
     article_id = Keyword()
     origin_url = Keyword()
-    avatar = Keyword()
     author = Keyword()
     pub_time = Date()
-    read_count = Integer()
-    like_count = Integer()
-    word_count = Integer()
-    subjects = Text(analyzer="ik_max_word")
-    comment_count = Integer()
 
 
     class Index:

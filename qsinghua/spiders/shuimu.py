@@ -82,7 +82,7 @@ class ShuimuSpider(scrapy.Spider):
 		base_url = 'http://www.newsmth.net'
 		param = {'p':1}
 		for school in school_url:
-			for page in range(1,2):
+			for page in range(1,5):
 				param['p'] = page
 				url = base_url + school + '?ajax&' +urlencode(param)
 				yield scrapy.Request(url = url, headers = self.headers2, callback = self.school_page)

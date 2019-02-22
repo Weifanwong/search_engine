@@ -16,11 +16,14 @@ from scrapy.exceptions import DropItem
 from twisted.enterprise import adbapi
 import gridfs
 from bson.objectid import ObjectId
-from qsinghua.models import *
+# from qsinghua.models import *
 import traceback
+import pymongo
 
 
-
+conn=pymongo.MongoClient('127.0.0.1',27017)
+db = conn.wwf_database02
+myset = db.kanzheli
 
 # class QsinghuaPipeline(object):
 #     def __init__(self):
@@ -148,5 +151,8 @@ import traceback
 
 class ElasticsearchPipline(object):
     def process_item(self, item, spider):
+    	myset.insert({'user_name':item['poster_name'],
+    		'user_gender':item['poster_sex'],'url':item['url'],
+    		'content':item['content']})
         item.save_to_es()
         return item
