@@ -37,8 +37,8 @@ class ShuimuSpider(scrapy.Spider):
 	'X-Requested-With': 'XMLHttpRequest',
     } 
 	formdata = {
-    'id': 'q836754578',
-    'passwd': 'wangqiang654321',
+    'id': 'xxxxx',
+    'passwd': 'xxxxxx',
     'mode': '0',
     'CookieDate':'0',
     }
